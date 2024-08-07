@@ -190,9 +190,9 @@ Generate a detailed image description based on the following prompt, adhering to
 }
 ```
 
-2. Structured Prompt: (The JSON representation of the input prompt, as shown in the LLM Prompt)
+2. Structured Prompt: (The JSON representation of the input prompt, as shown in the 2nd half of the LLM Prompt)
 
-3. Custom Schema: (The schema used, as shown at the beginning of the LLM Prompt)
+3. Custom / Default Schema: (The schema used, as shown at the beginning of the LLM Prompt)
 
 ## Notes
 - The `structured_prompt` output is an intermediate representation, not the final detailed JSON.
@@ -201,7 +201,7 @@ Generate a detailed image description based on the following prompt, adhering to
 - The custom schema defines the structure for both the intermediate prompt and the final LLM output.
 - Adjust the complexity parameter to control the level of detail in the generated prompts.
 
-## Token Counter Usage
+## Token Counter Node Usage
 The Token Counter node is available in the "utils" category:
 
 1. Connect the following inputs:
@@ -215,3 +215,7 @@ The Token Counter node is available in the "utils" category:
 
 ## Support
 For issues, feature requests, or contributions, please open an issue or pull request in the GitHub repository.
+
+## Acknowledgements
+This node builds upon the concept of controllable image generation via JSON prompting, specifically in the Flux1 family of models.
+Thanks to the Image Diffusion, AI Twitter, ComfyUI & Banodoco communities for their support and inspiration.
