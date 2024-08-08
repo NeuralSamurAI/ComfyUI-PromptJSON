@@ -101,92 +101,88 @@ Input:
 Output:
 1. LLM Prompt:
 ```
-You are an AI assistant specialized in generating detailed image descriptions based on the following schema: 
+You are an AI assistant specialized in generating detailed image descriptions based on the following schema:
 {
-  "scene": {
-    "time_of_day": "string",
-    "weather": "string",
-    "location": "string"
-  },
-  "subjects": [
-    {
-      "type": "string",
-      "description": "string",
-      "position": "string"
-    }
-  ],
-  "style": {
-    "artistic_movement": "string",
-    "color_palette": ["string"],
-    "mood": "string"
-  },
-  "camera": {
-    "angle": "string",
-    "shot_type": "string"
-  }
+"scene": {
+"time_of_day": "string",
+"weather": "string",
+"location": "string"
+},
+"subjects": [
+{
+"type": "string",
+"description": "string",
+"position": "string"
 }
-
+],
+"style": {
+"artistic_movement": "string",
+"color_palette": ["string"],
+"mood": "string"
+},
+"camera": {
+"angle": "string",
+"shot_type": "string"
+}
+}
 Here's an example of how to structure your response:
-
 {
-  "scene": {
-    "time_of_day": "sunset",
-    "weather": "clear",
-    "location": "serene lake"
-  },
-  "subjects": [
-    {
-      "type": "character",
-      "description": "lone fisherman",
-      "position": "in a small boat"
-    },
-    {
-      "type": "object",
-      "description": "small boat",
-      "position": "on the lake"
-    }
-  ],
-  "style": {
-    "artistic_movement": "Impressionism",
-    "color_palette": ["orange", "purple", "blue"],
-    "mood": "tranquil"
-  },
-  "camera": {
-    "angle": "wide shot",
-    "shot_type": "landscape"
-  }
+"scene": {
+"time_of_day": "sunset",
+"weather": "clear",
+"location": "serene lake"
+},
+"subjects": [
+{
+"type": "character",
+"description": "lone fisherman",
+"position": "in a small boat"
+},
+{
+"type": "object",
+"description": "small boat",
+"position": "on the lake"
 }
-
+],
+"style": {
+"artistic_movement": "Impressionism",
+"color_palette": ["orange", "purple", "blue"],
+"mood": "tranquil"
+},
+"camera": {
+"angle": "wide shot",
+"shot_type": "landscape"
+}
+}
 Please generate a similar structured description for the given prompt, but with more detail and creativity.
-
-Generate a detailed image description based on the following prompt, adhering to the provided schema: 
+Generate a detailed image description based on the following prompt, adhering to the provided schema:
 {
-  "scene": {
-    "time_of_day": "sunset",
-    "weather": "clear",
-    "location": "serene lake"
-  },
-  "subjects": [
-    {
-      "type": "character",
-      "description": "lone fisherman",
-      "position": "in a small boat"
-    },
-    {
-      "type": "object",
-      "description": "small boat",
-      "position": "on the lake"
-    }
-  ],
-  "style": {
-    "artistic_movement": "Impressionism",
-    "color_palette": ["orange", "purple", "blue"],
-    "mood": "tranquil"
-  },
-  "camera": {
-    "angle": "wide shot",
-    "shot_type": "landscape"
-  }
+"scene": {
+"time_of_day": "dawn",
+"weather": "misty",
+"location": "ancient forest"
+},
+"subjects": [
+{
+"type": "character",
+"description": "mysterious druid",
+"position": "center of a clearing"
+},
+{
+"type": "animal",
+"description": "majestic stag",
+"position": "emerging from the trees"
+}
+],
+"style": {
+"artistic_movement": "Fantasy Realism",
+"color_palette": ["deep green", "misty gray", "golden highlights"],
+"mood": "mystical"
+},
+"camera": {
+"angle": "low angle",
+"shot_type": "medium wide shot"
+}
 }
 ```
 
