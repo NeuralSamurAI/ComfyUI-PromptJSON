@@ -14,6 +14,8 @@ PromptJSON is a custom node for ComfyUI that structures natural language prompts
 - Error handling for robust operation
 
 ## Installation
+I recommend using comfy manager "Install via git" option. Or...
+
 1. Navigate to your ComfyUI custom nodes directory.
 2. Clone this repository or copy the `PromptJSON.py`, `prompt_templates.py`, and `__init__.py` files into a new directory named `ComfyUI-PromptJSON`.
 3. Restart ComfyUI or refresh your workflow.
