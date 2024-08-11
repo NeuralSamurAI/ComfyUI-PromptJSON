@@ -1,14 +1,11 @@
-from .prompt_json import PromptJSON
-from .token_counter import TokenCounter
+from .PromptJSON import PromptJSON
 
 NODE_CLASS_MAPPINGS = {
     "PromptJSON": PromptJSON,
-    "TokenCounter": TokenCounter
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "PromptJSON": "Prompt JSON",
-    "TokenCounter": "Token Counter"
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
