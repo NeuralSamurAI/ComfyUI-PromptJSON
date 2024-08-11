@@ -1,29 +1,22 @@
 # PromptJSON Node for ComfyUI
 
 ## Description
-PromptJSON is a custom node for ComfyUI that structures natural language prompts and generates prompts for external LLM nodes in image generation workflows. It aids in creating consistent, schema-based image descriptions.
+PromptJSON is a custom node for ComfyUI that structures natural language prompts and generates prompts for external LLM nodes in image generation workflows. It aids in creating consistent, schema-based image descriptions with support for various schema types.
 
 ## Features
-- Structures natural language prompts according to a custom schema
+- Structures natural language prompts according to multiple schema types
 - Generates prompts for external LLM nodes with multiple strategies
 - Supports negative prompts
 - Adjustable complexity for output detail
-- Custom color scheme input
 - Custom schema support for fine-tuning prompt structure
-- Multiple prompt generation strategies
-- Token counting for T5 and CLIP models
-- Batch processing support
-- Debug mode for detailed information
+- Multiple prompt generation strategies (One Shot and Few Shot)
+- Support for various schema types: JSON, HTML, Key-Value, Attribute-Based, Visual Layer Breakdown, Compositional Grid, and Artistic Reference
 - Error handling for robust operation
 
 ## Installation
 1. Navigate to your ComfyUI custom nodes directory.
-2. Clone this repository or copy the `prompt_json.py`, `token_counter.py`, and `__init__.py` files into a new directory named `PromptJSON`.
-3. Install required dependencies:
-   ```
-   pip install nltk
-   ```
-4. Restart ComfyUI or refresh your workflow.
+2. Clone this repository or copy the `PromptJSON.py`, `prompt_templates.py`, and `__init__.py` files into a new directory named `ComfyUI-PromptJSON`.
+3. Restart ComfyUI or refresh your workflow.
 
 ## Usage
 1. Find the "Prompt JSON" node in the "prompt_converters" category in ComfyUI.
@@ -31,36 +24,39 @@ PromptJSON is a custom node for ComfyUI that structures natural language prompts
    - `prompt`: Your main prompt text
    - `negative_prompt`: Elements to avoid in the image
    - `complexity`: A float value between 0.1 and 1.0 to adjust output detail
-   - `max_tokens`: Maximum number of tokens for the output JSON
-   - `model`: The model to use for tokenization
-   - `llm_prompt_type`: Choose between "One Shot Learning", "System Prompt", or "Combined"
-   - `color_scheme` (optional): Comma-separated list of colors
-   - `seed` (optional): Seed for random number generation (-1 for random seed)
-   - `custom_schema` (optional): JSON string for custom schema
-   - `debug_mode` (optional): Boolean to enable debug information in output
-   - `batch_size` (optional): Number of outputs to generate in a batch
+   - `llm_prompt_type`: Choose between "One Shot" or "Few Shot"
+   - `schema_type`: Select from JSON, HTML, Key, Attribute-Based, Visual Layer Breakdown, Compositional Grid, or Artistic Reference
+   - `custom_schema` (optional): Custom schema string (format depends on chosen schema type)
 
 3. Use the outputs:
-   - `llm_prompt`: The prompt to be sent to the external LLM node
-   - `structured_prompt`: A JSON representation of the input prompt, structured according to the schema
-   - `custom_schema`: The schema used to structure the prompt and guide the LLM
+   - `system_prompt`: The system instructions for the LLM
+   - `user_prompt`: The main prompt for the LLM, including the structured input
+   - `negative_passthru`: The negative prompt passed through unchanged
+   - `schema`: The formatted schema used for structuring the prompt
 
 ## LLM Prompt Types
-- **One Shot Learning**: Provides an example of a structured response based on the input prompt.
-- **System Prompt**: Gives instructions to the LLM on how to generate structured descriptions.
-- **Combined**: Merges the System Prompt and One Shot Learning example for potentially increased accuracy.
+- **One Shot**: Provides a single example of a structured response based on the input prompt.
+- **Few Shot**: Provides multiple examples of structured responses at different complexity levels.
+
+## Schema Types
+1. **JSON**: Traditional JSON structure for detailed image descriptions.
+2. **HTML**: HTML-like tag structure for organizing image elements.
+3. **Key**: Key-value pair structure for straightforward descriptions.
+4. **Attribute-Based**: List of attributes focusing on specific aspects of the image.
+5. **Visual Layer Breakdown**: Structured description of background, midground, foreground, and focus elements.
+6. **Compositional Grid**: 3x3 grid-based description of image elements.
+7. **Artistic Reference**: Detailed breakdown of artistic elements like subject, composition, color palette, etc.
 
 ## Workflow
-1. The PromptJSON node takes the user's input and structures it according to the custom schema.
-2. It generates an LLM prompt based on the chosen prompt type, incorporating the structured prompt and schema.
-3. The `llm_prompt` output is sent to an external LLM node.
-4. The external LLM node generates the final, detailed JSON description based on this prompt.
+1. The PromptJSON node takes the user's input and structures it according to the chosen schema type.
+2. It generates a system prompt and user prompt based on the chosen LLM prompt type and schema.
+3. The outputs can be sent to an external LLM node for further processing.
+4. The external LLM node generates the final, detailed image description based on these prompts.
 
 ## Custom Schema
-The custom schema feature allows you to define the structure of the output JSON and influence the generated LLM prompt.
+The custom schema feature allows you to define the structure of the output. The format depends on the chosen schema type. For example, for JSON:
 
-### Example: Custom Schema for Image Generation
-```
+```json
 {
   "scene": {
     "time_of_day": "string",
@@ -86,132 +82,26 @@ The custom schema feature allows you to define the structure of the output JSON 
 }
 ```
 
-This schema will guide the structuring of the input prompt and the generation of the LLM prompt.
-
 ## Example Output
 Input:
 - prompt: "A serene lake at sunset with a lone fisherman in a small boat"
 - negative_prompt: "urban, city, crowds"
 - complexity: 0.7
-- max_tokens: 2048
-- color_scheme: "orange, purple, blue"
-- custom_schema: (The schema shown above)
-- llm_prompt_type: "Combined"
+- llm_prompt_type: "Few Shot"
+- schema_type: "JSON"
+- custom_schema: (The JSON schema shown above)
 
 Output:
-1. LLM Prompt:
-```
-You are an AI assistant specialized in generating detailed image descriptions based on the following schema:
-{
-"scene": {
-"time_of_day": "string",
-"weather": "string",
-"location": "string"
-},
-"subjects": [
-{
-"type": "string",
-"description": "string",
-"position": "string"
-}
-],
-"style": {
-"artistic_movement": "string",
-"color_palette": ["string"],
-"mood": "string"
-},
-"camera": {
-"angle": "string",
-"shot_type": "string"
-}
-}
-Here's an example of how to structure your response:
-{
-"scene": {
-"time_of_day": "sunset",
-"weather": "clear",
-"location": "serene lake"
-},
-"subjects": [
-{
-"type": "character",
-"description": "lone fisherman",
-"position": "in a small boat"
-},
-{
-"type": "object",
-"description": "small boat",
-"position": "on the lake"
-}
-],
-"style": {
-"artistic_movement": "Impressionism",
-"color_palette": ["orange", "purple", "blue"],
-"mood": "tranquil"
-},
-"camera": {
-"angle": "wide shot",
-"shot_type": "landscape"
-}
-}
-Please generate a similar structured description for the given prompt, but with more detail and creativity.
-Generate a detailed image description based on the following prompt, adhering to the provided schema:
-{
-"scene": {
-"time_of_day": "dawn",
-"weather": "misty",
-"location": "ancient forest"
-},
-"subjects": [
-{
-"type": "character",
-"description": "mysterious druid",
-"position": "center of a clearing"
-},
-{
-"type": "animal",
-"description": "majestic stag",
-"position": "emerging from the trees"
-}
-],
-"style": {
-"artistic_movement": "Fantasy Realism",
-"color_palette": ["deep green", "misty gray", "golden highlights"],
-"mood": "mystical"
-},
-"camera": {
-"angle": "low angle",
-"shot_type": "medium wide shot"
-}
-}
-```
-
-2. Structured Prompt: (The JSON representation of the input prompt, as shown in the 2nd half of the LLM Prompt)
-
-3. Custom / Default Schema: (The schema used, as shown at the beginning of the LLM Prompt)
+1. System Prompt: (Contains instructions and examples for the LLM)
+2. User Prompt: (Contains the structured input prompt and schema)
+3. Negative Passthru: "urban, city, crowds"
+4. Schema: (The formatted JSON schema)
 
 ## Notes
-- The `structured_prompt` output is an intermediate representation, not the final detailed JSON.
-- The `llm_prompt` is designed to guide an external LLM in generating the final, detailed structured image description.
-- Experiment with different LLM prompt types to find the most effective one for your specific LLM and use case.
-- The custom schema defines the structure for both the intermediate prompt and the final LLM output.
+- The system prompt and user prompt are designed to guide an external LLM in generating a detailed, structured image description.
+- Experiment with different LLM prompt types and schema types to find the most effective combination for your specific use case.
 - Adjust the complexity parameter to control the level of detail in the generated prompts.
-
-## Token Counter Node Usage
-The Token Counter node is available in the "utils" category:
-
-1. Connect the following inputs:
-   - `text`: The text to count tokens for
-   - `model`: The model to use for tokenization
-   - `use_clip` (optional): Boolean to enable CLIP token counting
-
-2. Use the outputs:
-   - `t5_token_count`: Number of tokens using T5 tokenizer
-   - `clip_token_count`: Number of tokens using CLIP tokenizer (if enabled)
+- Custom schemas allow for fine-tuned control over the structure of the generated descriptions.
 
 ## Support
 For issues, feature requests, or contributions, please open an issue or pull request in the GitHub repository.
-
-## Acknowledgements
-This node builds upon the concept of controllable image generation via JSON prompting, specifically in the Flux1 family of models.
-Thanks to the Image Diffusion, AI Twitter, ComfyUI & Banodoco communities for their support and inspiration.
