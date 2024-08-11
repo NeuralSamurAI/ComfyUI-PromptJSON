@@ -1,5 +1,5 @@
 # PromptJSON Node for ComfyUI
-![PromptJSON](https://github.com/NeuralSamurAI/ComfyUI-PromptJSON/blob/master/image.jpg?raw=true)
+![PromptJSON](https://github.com/NeuralSamurAI/ComfyUI-PromptJSON/blob/main/image.png?raw=true)
 ## Description
 PromptJSON is a custom node for ComfyUI that structures natural language prompts and generates prompts for external LLM nodes in image generation workflows. It aids in creating consistent, schema-based image descriptions with support for various schema types.
 
