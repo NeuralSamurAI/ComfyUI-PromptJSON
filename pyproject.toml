@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-promptjson"
+description = "PromptJSON is a custom node for ComfyUI that structures natural language prompts and generates prompts for external LLM nodes in image generation workflows. It aids in creating consistent, schema-based image descriptions."
+version = "1.0.0"
+license = {file = "LICENSE"}
+
+[project.urls]
+Repository = "https://github.com/NeuralSamurAI/ComfyUI-PromptJSON"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-PromptJSON"
+Icon = ""
